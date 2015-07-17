@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     BCrypt::Password.create(string, cost: cost)
   end
 
-  # Returns a random token.
+  # Returns a random token. - cookies
   def User.new_token
     SecureRandom.urlsafe_base64
   end
@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   # Returns true if the given token matches the digest.
   def authenticated?(remember_token)
+    return false if remember_digest.nil?
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
